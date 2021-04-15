@@ -21,18 +21,21 @@ def truncated_normal_ints(mean=0, sd=1, low=0, upp=10, num=100):
 
 number_of_items_per_class = [450, 500]
 elevators = {}
+
+
 # Healthy Elevator
 
 number_of_items = number_of_items_per_class[0]
 temperature = truncated_normal_floats(
-    mean=57.5, sd=10, low=25, upp=80, num=number_of_items)\
-
+    mean=57.5, sd=10, low=25, upp=80, num=number_of_items)
 speed = truncated_normal_ints(mean=1, sd=1, low=0, upp=3, num=number_of_items)
 voltage = truncated_normal_ints(
     mean=230, sd=15, low=100, upp=260, num=number_of_items)
 # emergency = np.ones(number_of_items)
 data = np.column_stack((temperature, speed, voltage))
 elevators["Healthy"] = data
+
+
 # Unhealthy Elevator
 number_of_items = number_of_items_per_class[1]
 
