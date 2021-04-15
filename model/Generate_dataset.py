@@ -58,4 +58,4 @@ for i in range(1, 2):
     target[beg:beg+num] += i
     previous_end = beg+num
 conc_data = np.concatenate((data, target.reshape(target.shape[0], 1)), axis=1)
-np.savetxt("data/elevator_data.txt", conc_data, fmt="%2.2f")
+np.savetxt("../data/elevator_data.txt", conc_data, fmt="%2.2f")
