@@ -1,12 +1,14 @@
+import os
 import sys
 import urllib.request
 from time import sleep
 import random
 import joblib
 import numpy as np
-
+from dotenv import load_dotenv
+load_dotenv()
 # API for upload of data
-myurl = "https://api.thingspeak.com/update?api_key=CX3S81MWODC4ZV6O&field1=0"
+myurl = os.environ.get("API_TOKEN")
 
 # Simulation of the data from system
 while True:
