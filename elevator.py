@@ -2,11 +2,15 @@ import sys
 import urllib.request
 from time import sleep
 import random
+import joblib
+import numpy as np
 
+# API for upload of data
 myurl = "https://api.thingspeak.com/update?api_key=CX3S81MWODC4ZV6O&field1=0"
 
+# Simulation of the data from system
 while True:
-    speed = random.uniform(0 ,3)
+    speed = random.uniform(0, 3)
     governor = 0
     level = random.uniform(-1, 1)
     voltage = random.uniform(100, 260)
@@ -17,5 +21,21 @@ while True:
         governor += 1
     if temperature > 82:
         emergency = 1
-    urllib.request.urlopen(myurl + "&field1=" + str(temperature) + "&field2=" + str(level) + "&field3=" + str(speed) + "&field4=" + str(governor) + "&field5=" + str(voltage) + "&field6=" + str(emergency))
-    print("Uploaded")
+
+# Preparation for the data for inferernce
+    temp = float(temperature)
+
+# Actual Inference
+    loaded_model = joblib.load('final_model.sav')
+    val = np.array([temp, speed, voltage])
+    res = loaded_model.predict(val.reshape(1, -1))
+    result = ""
+    if (res == 1.0):
+        result = "Healthy"
+    else:
+        result = "Unhealthy"
+
+# Sending the data to the server for visualisation and continuous monitoring
+    urllib.request.urlopen(myurl + "&field1=" + str(temperature) + "&field2=" + str(level) + "&field3=" + str(
+        speed) + "&field4=" + str(governor) + "&field5=" + str(voltage) + "&field6=" + str(emergency))
+    print("Uploaded - The system is " + result)
